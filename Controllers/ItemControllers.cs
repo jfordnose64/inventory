@@ -46,5 +46,43 @@ namespace inventory.Controllers
       return entry;
     }
 
+    [HttpPut("{Id}")]
+    public ActionResult<Item> PutItem(int Id, [FromBody]Item entry)
+    {
+      var context = new DatabaseContext();
+      context.Items.Add(entry);
+      context.SaveChanges();
+      return entry;
+    }
+
+    [HttpGet("OutOfStock")]
+    public ActionResult<IEnumerable<Item>> GetOutOfStockItem()
+    {
+      var context = new DatabaseContext();
+      var theThing = context.Items.OrderByDescending(i => i.NumberInStock == 0);
+      return theThing.ToList();
+
+    }
+
+    [HttpGet("{SKU}")]
+    public ActionResult<Item> PutSku(string SKU)
+    {
+      var context = new DatabaseContext();
+      var oneItem = context.Items.FirstOrDefault(i => i.SKU == SKU);
+      if (oneItem == null)
+      {
+        return NotFound();
+      }
+      else
+      {
+        return Ok(oneItem);
+      }
+    }
+
+    [HttpDelete("{Id}")]
+    public ActionResult<Item> DeleteItem(int Id)
+    {
+      return Ok(Id);
+    }
   }
 }
