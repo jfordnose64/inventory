@@ -45,5 +45,6 @@ namespace inventory
       modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
     }
     public DbSet<Item> Items { get; set; }
+    public DbSet<Location> Location { get; set; }
   }
 }
